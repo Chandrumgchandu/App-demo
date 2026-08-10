@@ -3,14 +3,9 @@ pipeline {
 
     stages {
 
-        stage('Clone') {
-        steps {
-            git branch: 'main', url: 'https://github.com/Chandrumgchandu/App-demo.git'
-        }
-    }
-
         stage('Build') {
             steps {
+                sh 'chmod +x mvnw'
                 sh './mvnw clean package'
             }
         }
