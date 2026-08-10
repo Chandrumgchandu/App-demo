@@ -37,11 +37,24 @@ pipeline {
             }
         }
 
-        stage('Deploy to K8s') {
+        stage('Deploy to Kubernetes') {
             steps {
-                sh 'kubectl apply -f k8s/deployment.yaml'
-                sh 'kubectl apply -f k8s/service.yaml'
-            }
+                 withCredentials([string(credentialsId: 'k8s-token', variable: 'K8S_TOKEN')]) {
+                sh '''
+                    kubectl \
+                    --server=https://10.0.1.132:6443 \
+                    --token="$K8S_TOKEN" \
+                    --insecure-skip-tls-verify=true \
+                    apply -f k8s/deployment.yaml
+
+                    kubectl \
+                    --server=https://10.0.1.132:6443 \
+                    --token="$K8S_TOKEN" \
+                    --insecure-skip-tls-verify=true \
+                    apply -f k8s/service.yaml
+                '''
         }
+    }
+}
     }
 }
