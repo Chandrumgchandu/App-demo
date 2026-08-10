@@ -19,7 +19,7 @@ spec:
         - containerPort: 8080
         livenessProbe:
           httpGet:
-            path: /wrong
+            path: /
             port: 8080
           initialDelaySeconds: 30
           periodSeconds: 10
