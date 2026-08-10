@@ -4,10 +4,10 @@ pipeline {
     stages {
 
         stage('Clone') {
-            steps {
-                git 'https://github.com/Chandrumgchandu/App-demo.git'
-            }
+        steps {
+            git branch: 'main', url: 'https://github.com/Chandrumgchandu/App-demo.git'
         }
+    }
 
         stage('Build') {
             steps {
