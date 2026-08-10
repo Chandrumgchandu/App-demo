@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>App A</title>
+</head>
+<body>
+    <h1>Welcome to App A 🚀</h1>
+
+    <button onclick="loadData()">Call Backend</button>
+
+    <p id="output"></p>
+
+    <script>
+        function loadData() {
+            fetch('/api/hello')
+                .then(res => res.text())
+                .then(data => {
+                    document.getElementById('output').innerText = data;
+                });
+        }
+    </script>
+</body>
+</html>
