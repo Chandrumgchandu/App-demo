@@ -17,5 +17,18 @@ spec:
         image: 350480401937.dkr.ecr.ap-south-1.amazonaws.com/app-a:v1
         ports:
         - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 5
       imagePullSecrets:
       - name: ecr-secret
