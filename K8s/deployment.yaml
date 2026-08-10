@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-a
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-a
+  template:
+    metadata:
+      labels:
+        app: app-a
+    spec:
+      containers:
+      - name: app-a
+        image: 350480401937.dkr.ecr.ap-south-1.amazonaws.com/app-a:v1
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: ecr-secret
