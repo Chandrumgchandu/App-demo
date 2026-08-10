@@ -38,32 +38,23 @@ pipeline {
         }
 
         stage('Deploy to Kubernetes') {
-    steps {
-        sh '''
-            pwd
-            find . -maxdepth 3 -type f | sort
-        '''
+            steps {
+             withCredentials([string(credentialsId: 'k8s-token', variable: 'K8S_TOKEN')]) {
+                sh '''
+                    kubectl \
+                    --server=https://10.0.1.132:6443 \
+                    --token="$K8S_TOKEN" \
+                    --insecure-skip-tls-verify=true \
+                    apply -f K8s/deployment.yaml
+
+                    kubectl \
+                    --server=https://10.0.1.132:6443 \
+                    --token="$K8S_TOKEN" \
+                    --insecure-skip-tls-verify=true \
+                    apply -f K8s/service.yaml
+                '''
+        }
     }
 }
-
-    //     stage('Deploy to Kubernetes') {
-    //         steps {
-    //              withCredentials([string(credentialsId: 'k8s-token', variable: 'K8S_TOKEN')]) {
-    //             sh '''
-    //                 kubectl \
-    //                 --server=https://10.0.1.132:6443 \
-    //                 --token="$K8S_TOKEN" \
-    //                 --insecure-skip-tls-verify=true \
-    //                 apply -f k8s/deployment.yaml
-
-    //                 kubectl \
-    //                 --server=https://10.0.1.132:6443 \
-    //                 --token="$K8S_TOKEN" \
-    //                 --insecure-skip-tls-verify=true \
-    //                 apply -f k8s/service.yaml
-    //             '''
-    //     }
-    // }
-//}
     }
 }
