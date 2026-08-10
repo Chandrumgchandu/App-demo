@@ -36,5 +36,12 @@ pipeline {
                 sh 'docker push $ECR_REPO:$IMAGE_TAG'
             }
         }
+
+        stage('Deploy to K8s') {
+            steps {
+                sh 'kubectl apply -f k8s/deployment.yaml'
+                sh 'kubectl apply -f k8s/service.yaml'
+            }
+        }
     }
 }
